@@ -22,33 +22,39 @@ fetchCountries(valueOfInputQuery)
     if (countries.length > 10) {
     Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
       clearCountryList();
-    } else if (countries.length >= 2 && countries.length < 10){
-        const markup = countries.map(country => `
-      <li>
-        <img src="${country.flags.svg}" alt="${country.name}" width="32">
-        <span>${country.name}</span>
-      </li>
-    `).join('');
-    countryList.innerHTML = markup;
+    } else if (countries.length >= 2 && countries.length <= 10){
+      renderCardMarkup(countries)
     } else if(countries.length === 1){
         clearCountryList()
-const markupForOneCountry = countries.map(country =>{
-    `<img src="${country.flags.svg}" alt="${country.name}" width="32">
-<h2>${country.name}</h2>
-<ul>
-  <li><h3>Capital:</h3><span>${country.capital}</span></li>
-  <li><h3>Population:</h3><span>${country.population}</span></li>
-  <li><h3>Languages:</h3><span>${country.languages}</span></li>
-</ul>`.join('')
-})
-countryInfo.innerHTML = markupForOneCountry;
+        renderOneCardMarkup(countries)
     }
 })
 .catch(error => {
-if(error === '404'){
+if(error.status === '404'){
 Notiflix.Notify.failure("Oops, there is no country with that name");}
 })
 }
 function clearCountryList() {
     countryList.innerHTML = '';
   }
+function renderCardMarkup(countries){
+  const markup = countries.map(country => `
+  <li>
+    <img src="${country.flags.svg}" alt="${country.name}" width="32">
+    <span>${country.name}</span>
+  </li>
+`).join('');
+countryList.innerHTML = markup;
+}
+function renderOneCardMarkup(countries){
+  const markupForOneCountry = countries.map(country =>{
+    `<img src="${country.flags.svg}" alt="${country.name}" width="32">
+<h2>${country.name}</h2>
+<ul>
+  <li><h3>Capital:</h3><span>${country.capital}</span></li>
+  <li><h3>Population:</h3><span>${country.population}</span></li>
+  <li><h3>Languages:</h3><span>${Object.values(languages)}</span></li>
+</ul>`.join('')
+})
+countryInfo.innerHTML = markupForOneCountry;
+}
