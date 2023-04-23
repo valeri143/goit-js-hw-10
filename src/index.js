@@ -9,7 +9,6 @@ const input = document.querySelector('#search-box')
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info')
 
-
 input.addEventListener('input', debounce(onInputQuery, DEBOUNCE_DELAY))
 function onInputQuery(){
     const valueOfInputQuery = input.value.trim()
@@ -30,10 +29,14 @@ fetchCountries(valueOfInputQuery)
     }
 })
 .catch(error => {
-if(error.status === '404'){
+if(error.message === '404'){
 Notiflix.Notify.failure("Oops, there is no country with that name");}
-})
+else {
+  console.log(error.message);
 }
+})
+} 
+
 function clearCountryList() {
     countryList.innerHTML = '';
   }
@@ -53,7 +56,7 @@ function renderOneCardMarkup(countries){
 <ul>
   <li><h3>Capital:</h3><span>${country.capital}</span></li>
   <li><h3>Population:</h3><span>${country.population}</span></li>
-  <li><h3>Languages:</h3><span>${Object.values(languages)}</span></li>
+  <li><h3>Languages:</h3><span>${Object.values(country.languages)}</span></li>
 </ul>`.join('')
 })
 countryInfo.innerHTML = markupForOneCountry;
