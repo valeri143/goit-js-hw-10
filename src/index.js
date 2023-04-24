@@ -25,7 +25,7 @@ fetchCountries(valueOfInputQuery)
       renderCardMarkup(countries)
     } else if(countries.length === 1){
         clearCountryList()
-        renderOneCardMarkup(countries)
+        countryInfo.innerHTML = renderOneCardMarkup(countries);
     }
 })
 .catch(error => {
@@ -43,21 +43,19 @@ function clearCountryList() {
 function renderCardMarkup(countries){
   const markup = countries.map(country => `
   <li>
-    <img src="${country.flags.svg}" alt="${country.name}" width="32">
-    <span>${country.name}</span>
+    <img src="${country.flags.svg}" alt="${country.name.official}" width="32">
+    <span>${country.name.official}</span>
   </li>
 `).join('');
 countryList.innerHTML = markup;
 }
-function renderOneCardMarkup(countries){
-  const markupForOneCountry = countries.map(country =>{
-    `<img src="${country.flags.svg}" alt="${country.name}" width="32">
-<h2>${country.name}</h2>
-<ul>
-  <li><h3>Capital:</h3><span>${country.capital}</span></li>
-  <li><h3>Population:</h3><span>${country.population}</span></li>
-  <li><h3>Languages:</h3><span>${Object.values(country.languages)}</span></li>
-</ul>`.join('')
-})
-countryInfo.innerHTML = markupForOneCountry;
-}
+function renderOneCardMarkup(data){
+  return data.map(({ name, flags, capital, population, languages }) =>
+        `<p class="country-name">
+        <img src="${flags.svg}" alt="country ${name}" width="60"/>
+        ${name.official}</p>
+        <p style="font-weight: bold">Capital: <span style="font-weight: normal">${capital}</span></p>
+        <p style="font-weight: bold">Population: <span style="font-weight: normal">${population}</span></p>
+        <p style="font-weight: bold">Languages: <span style="font-weight: normal">${Object.values(languages)}</span></p>`).join('');
+  };
+ 
