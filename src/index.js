@@ -22,6 +22,7 @@ fetchCountries(valueOfInputQuery)
     Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
       clearCountryList();
     } else if (countries.length >= 2 && countries.length <= 10){
+      clearCountryInfo();
       renderCardMarkup(countries)
     } else if(countries.length === 1){
         clearCountryList()
@@ -40,6 +41,10 @@ else {
 function clearCountryList() {
     countryList.innerHTML = '';
   }
+
+function clearCountryInfo(){
+  countryInfo.innerHTML = '';
+}
 function renderCardMarkup(countries){
   const markup = countries.map(country => `
   <li>
